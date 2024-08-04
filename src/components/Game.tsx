@@ -2,23 +2,38 @@ import React from "react";
 import { messageSchema, MessageType } from "../utils/schema";
 import { z } from "zod";
 import Hands from "./Hands";
-
-const socket = new WebSocket("ws://localhost:8080/");
+import useFirebase from "../hooks/firebase";
+import useWebSocket from "react-use-websocket";
 
 export default function Game() {
   const [table, setTable] = React.useState<MessageType | null>(null);
   const [bet, setBet] = React.useState(0);
+  const user = useFirebase();
 
-  socket.onmessage = (event) => {
-    try {
-      const data = messageSchema.parse(JSON.parse(event.data));
-      setTable(data);
-    } catch (err) {
-      if (err instanceof z.ZodError) {
-        console.log(err.issues);
-      }
+  const { sendMessage, sendJsonMessage, readyState } = useWebSocket(
+    import.meta.env.VITE_PROD_SERVER,
+    {
+      onMessage: (event) => {
+        try {
+          const data = messageSchema.parse(JSON.parse(event.data));
+          setTable(data);
+        } catch (err) {
+          if (err instanceof z.ZodError) {
+            console.log(err.issues);
+          }
+        }
+      },
+      shouldReconnect: () => true,
     }
-  };
+  );
+
+  React.useEffect(() => {
+    if (user && readyState === 1) {
+      user.getIdToken(true).then((token) => {
+        sendMessage(token);
+      });
+    }
+  }, [user, sendMessage, readyState]);
 
   console.dir(table);
 
@@ -45,34 +60,22 @@ export default function Game() {
           playerId={table.playerId}
         />
         <button onClick={() => setBet(bet + 10)}>+10</button>
-        <button
-          onClick={() =>
-            socket.send(JSON.stringify({ action: "bet", bet: bet }))
-          }
-        >
+        <button onClick={() => sendJsonMessage({ action: "bet", bet: bet })}>
           Bet
         </button>
-        <button onClick={() => socket.send(JSON.stringify({ action: "end" }))}>
+        <button onClick={() => sendJsonMessage({ action: "end" })}>
           Start
         </button>
       </div>
       <div>
-        <button onClick={() => socket.send(JSON.stringify({ action: "hit" }))}>
-          Hit
-        </button>
-        <button
-          onClick={() => socket.send(JSON.stringify({ action: "stand" }))}
-        >
+        <button onClick={() => sendJsonMessage({ action: "hit" })}>Hit</button>
+        <button onClick={() => sendJsonMessage({ action: "stand" })}>
           Stand
         </button>
-        <button
-          onClick={() => socket.send(JSON.stringify({ action: "double" }))}
-        >
+        <button onClick={() => sendJsonMessage({ action: "double" })}>
           Double
         </button>
-        <button
-          onClick={() => socket.send(JSON.stringify({ action: "split" }))}
-        >
+        <button onClick={() => sendJsonMessage({ action: "split" })}>
           Split
         </button>
       </div>
