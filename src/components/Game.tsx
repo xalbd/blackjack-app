@@ -46,7 +46,7 @@ export default function Game() {
   );
 
   const { sendMessage, sendJsonMessage, readyState } = useWebSocket(
-    import.meta.env.VITE_PROD_SERVER,
+    import.meta.env.VITE_BACKEND,
     {
       onMessage: (event) => {
         try {

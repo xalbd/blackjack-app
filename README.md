@@ -1,30 +1,24 @@
-# React + TypeScript + Vite
+# Blackjack
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Configuration/Deploying
 
-Currently, two official plugins are available:
+The following environment variables need to be provided:
+| Name          | Source        |
+| ------------- | ------------- |
+| `VITE_BACKEND`  | Websocket URL of backend server (refer to [xalbd/blackjack-server](https://github.com/xalbd/blackjack-server)) |
+| `VITE_FIREBASE_API_KEY`  | Firebase Configuration  |
+| `VITE_FIREBASE_AUTH_DOMAIN`  | ^  |
+| `VITE_FIREBASE_PROJECT_ID`  | ^  |
+| `VITE_FIREBASE_STORAGE_BUCKET`  | ^  |
+| `VITE_FIREBASE_MESSAGING_SENDER_ID`  | ^  |
+| `VITE_FIREBASE_APP_ID`  | ^  |
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Testing
 
-## Expanding the ESLint configuration
+Put these environment variables in a `.env` file in the repository root. Run `npm run dev` to launch a local development server.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Deploying using Firebase & Github Actions
 
-- Configure the top-level `parserOptions` property like this:
+When deploying using Firebase Hosting & Github Actions, environment variables are retrieved from the repository variables configured through Github's repository settings. Be sure to configure them.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json', './tsconfig.app.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+Note that the Github Action also requires a Firebase service account to be set up. This can be done with `firebase init hosting:github` in the repository root. This uploads the necessary secret key and sets up Github Actions appropriately. Note that to build, the build script that Firebase should be provided is `npm i && npm build`.
