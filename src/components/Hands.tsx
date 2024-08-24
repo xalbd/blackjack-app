@@ -1,11 +1,13 @@
-import { HandType, TableType } from "../utils/schema";
-import { Hand } from "./seats/Hand";
-import { OtherBettingSeat } from "./seats/OtherBettingSeat";
-import { LockedSeat } from "./seats/LockedSeat";
-import { EmptySeat } from "./seats/EmptySeat";
-import { BettingSeat } from "./seats/BettingSeat";
-import { JoinedSeat } from "./seats/JoinedSeat";
+import { HandType, TableType } from "@/utils/schema";
+import { Hand } from "@/components/seats/Hand";
+import { OtherBettingSeat } from "@/components/seats/OtherBettingSeat";
+import { LockedSeat } from "@/components/seats/LockedSeat";
+import { EmptySeat } from "@/components/seats/EmptySeat";
+import { BettingSeat } from "@/components/seats/BettingSeat";
+import { JoinedSeat } from "@/components/seats/JoinedSeat";
 import { SendJsonMessage } from "react-use-websocket/dist/lib/types";
+import React from "react";
+import { AuthContext } from "@/components/AuthContext";
 
 export function Hands({
   table,
@@ -16,17 +18,18 @@ export function Hands({
   table: TableType;
   sendJson: SendJsonMessage;
   bets: Map<number, string>;
-  setBets: (bets: Map<number, string>) => void;
+  setBets: React.Dispatch<React.SetStateAction<Map<number, string>>>;
 }) {
   const activeHand = table.activeHand;
-  const playerId = table.playerId;
   const hands = table.hands;
+  const auth = React.useContext(AuthContext);
+  const playerId = auth?.uid;
 
   function displayHand(hand: HandType, i: number) {
     // betting phase
-    if (activeHand === -1) {
+    if (table.status === 0) {
       if (hand.playerId === "") {
-        return <EmptySeat key={i} seat={i} sendMessage={sendJson} />;
+        return <EmptySeat key={i} seat={i} sendJson={sendJson} />;
       } else if (hand.playerId !== playerId && hand.bet === 0) {
         return <OtherBettingSeat key={i} player={hand.playerId} />;
       } else if (hand.bet === 0) {
@@ -34,7 +37,7 @@ export function Hands({
           <BettingSeat
             key={i}
             seat={i}
-            sendMessage={sendJson}
+            sendJson={sendJson}
             bet={bets.get(i) || ""}
             setBet={(value) => {
               const newBets = new Map(bets);
@@ -47,10 +50,10 @@ export function Hands({
         return <LockedSeat key={i} player={hand.playerId} bet={hand.bet} />;
       }
     }
-    // playing phase
+    // playing/dealer phase
     else {
       if (hand.playerId === "") {
-        return <EmptySeat key={i} seat={i} sendMessage={sendJson} />;
+        return <EmptySeat key={i} seat={i} sendJson={sendJson} />;
       } else if (!hand.cards) {
         return (
           <JoinedSeat
@@ -58,7 +61,7 @@ export function Hands({
             seat={i}
             player={hand.playerId}
             self={playerId === hand.playerId}
-            sendMessage={sendJson}
+            sendJson={sendJson}
           />
         );
       } else {
@@ -75,7 +78,7 @@ export function Hands({
   }
 
   return (
-    <div className="flex flex-row flex-1 items-center justify-between gap-6 basis-2/3">
+    <div className="flex-1 grid grid-flow-col auto-cols-fr items-center justify-between gap-6 my-2">
       {hands.map((hand, i) => displayHand(hand, i))}
     </div>
   );

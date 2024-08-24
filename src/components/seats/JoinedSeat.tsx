@@ -7,12 +7,12 @@ export function JoinedSeat({
   seat,
   player,
   self,
-  sendMessage,
+  sendJson,
 }: {
   seat: number;
   player: string;
   self: boolean;
-  sendMessage: SendJsonMessage;
+  sendJson: SendJsonMessage;
 }) {
   return (
     <Seat className="justify-between">
@@ -22,7 +22,7 @@ export function JoinedSeat({
       {self ? (
         <Button
           variant="outline"
-          onClick={() => sendMessage({ action: "leave", seat })}
+          onClick={() => sendJson({ action: "leave", seat })}
         >
           Leave Seat
         </Button>

@@ -10,7 +10,7 @@ export function Seat({
   return (
     <div
       className={twMerge(
-        `bg-[#f0f0f0] p-4 rounded-lg flex-1 h-full flex flex-col items-center justify-center text-center text-lg`,
+        `transition bg-zinc-200 p-4 rounded-lg h-full flex flex-col items-center justify-center text-center text-lg shadow-lg`,
         className
       )}
     >

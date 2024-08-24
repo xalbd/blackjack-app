@@ -18,11 +18,11 @@ const playerSchema = z.object({
 });
 
 export const tableSchema = z.object({
-  playerId: z.string(),
   activeHand: z.number(),
   players: z.array(playerSchema),
   hands: z.array(handSchema),
   dealer: z.nullable(z.array(cardSchema)),
+  status: z.number(),
 });
 
 export type CardType = z.infer<typeof cardSchema>;

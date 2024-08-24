@@ -6,12 +6,12 @@ import { Seat } from "@/components/seats/Seat";
 
 export function BettingSeat({
   seat,
-  sendMessage,
+  sendJson,
   bet,
   setBet,
 }: {
   seat: number;
-  sendMessage: SendJsonMessage;
+  sendJson: SendJsonMessage;
   bet: string;
   setBet: (value: string) => void;
 }) {
@@ -20,7 +20,7 @@ export function BettingSeat({
       <Button
         variant="outline"
         className="self-start"
-        onClick={() => sendMessage({ action: "leave", seat })}
+        onClick={() => sendJson({ action: "leave", seat })}
       >
         <X size={28} strokeWidth={1.5} />
       </Button>
@@ -47,7 +47,7 @@ export function BettingSeat({
           variant="default"
           disabled={!bet || parseInt(bet) < 10}
           onClick={() =>
-            sendMessage({ action: "bet", bet: bet ? parseInt(bet) : 0, seat })
+            sendJson({ action: "bet", bet: bet ? parseInt(bet) : 0, seat })
           }
         >
           Bet
