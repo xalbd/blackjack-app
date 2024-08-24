@@ -13,12 +13,12 @@ export default function useFirebase() {
 
   React.useEffect(() => {
     const firebaseConfig = {
-      apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-      authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-      projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-      storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-      messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-      appId: import.meta.env.VITE_FIREBASE_APP_ID,
+      apiKey: "AIzaSyAWtbx1gSMh8TAqQBMbOhJK-nJDxRurq1Q",
+      authDomain: "blackjack-622c8.firebaseapp.com",
+      projectId: "blackjack-622c8",
+      storageBucket: "blackjack-622c8.appspot.com",
+      messagingSenderId: "412666873171",
+      appId: "1:412666873171:web:ce8fcf8eeb4cf331f94da6",
     };
 
     const app = initializeApp(firebaseConfig);
