@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import {
+  Auth,
   getAuth,
   onAuthStateChanged,
   signInAnonymously,
@@ -10,6 +11,7 @@ import React from "react";
 
 export default function useFirebase() {
   const [user, setUser] = React.useState<User | null>(null);
+  const [auth, setAuth] = React.useState<Auth | null>(null);
 
   React.useEffect(() => {
     const firebaseConfig = {
@@ -24,6 +26,8 @@ export default function useFirebase() {
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
+    setAuth(auth);
+
     onAuthStateChanged(auth, (u) => {
       if (!u) {
         signInAnonymously(auth);
@@ -32,5 +36,5 @@ export default function useFirebase() {
     });
   }, []);
 
-  return user;
+  return { user, auth };
 }

@@ -16,7 +16,7 @@ export function PlayArea({
   const [bets, setBets] = React.useState(
     new Map(table.hands.map((_, i) => [i, ""]))
   );
-  const auth = React.useContext(AuthContext);
+  const { user } = React.useContext(AuthContext);
 
   function addToBets(amount: number) {
     const newBets = new Map(bets);
@@ -40,7 +40,7 @@ export function PlayArea({
   function betAll() {
     bets.forEach((bet, seat) => {
       if (
-        table.hands[seat].playerId === auth?.uid &&
+        table.hands[seat].playerId === user?.uid &&
         bet &&
         parseInt(bet) >= 10
       ) {

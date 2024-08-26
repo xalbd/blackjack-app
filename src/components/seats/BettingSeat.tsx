@@ -45,6 +45,7 @@ export function BettingSeat({
         </Button>
         <Button
           variant="default"
+          type="submit"
           disabled={!bet || parseInt(bet) < 10}
           onClick={() =>
             sendJson({ action: "bet", bet: bet ? parseInt(bet) : 0, seat })

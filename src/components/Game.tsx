@@ -12,38 +12,29 @@ export default function Game() {
   const queue = React.useRef<TableType[]>([]);
   const waiting = React.useRef(false);
   const [table, setTable] = React.useState<TableType | null>(null);
-  const [money, setMoney] = React.useState(0);
-  const auth = React.useContext(AuthContext);
+  const { user } = React.useContext(AuthContext);
 
-  const queueNewTable = React.useCallback(
-    (t: TableType) => {
-      function execute(t: TableType) {
-        waiting.current = true;
-        setTable(t);
-        setMoney(
-          t.players.find((p) => {
-            return auth?.uid === p.id;
-          })?.money ?? 0
-        );
-        setTimeout(play, 500);
-      }
+  const queueNewTable = React.useCallback((t: TableType) => {
+    function execute(t: TableType) {
+      waiting.current = true;
+      setTable(t);
+      setTimeout(play, 500);
+    }
 
-      function play() {
-        waiting.current = false;
-        const next = queue.current.shift();
-        if (next) {
-          execute(next);
-        }
+    function play() {
+      waiting.current = false;
+      const next = queue.current.shift();
+      if (next) {
+        execute(next);
       }
+    }
 
-      if (waiting.current) {
-        queue.current.push(t);
-      } else {
-        execute(t);
-      }
-    },
-    [auth]
-  );
+    if (waiting.current) {
+      queue.current.push(t);
+    } else {
+      execute(t);
+    }
+  }, []);
 
   const { sendMessage, sendJsonMessage, readyState } = useWebSocket(
     import.meta.env.VITE_BACKEND,
@@ -63,12 +54,12 @@ export default function Game() {
   );
 
   React.useEffect(() => {
-    if (auth && readyState === 1) {
-      auth.getIdToken(true).then((token) => {
+    if (user && readyState === 1) {
+      user.getIdToken(true).then((token) => {
         sendMessage(token);
       });
     }
-  }, [auth, sendMessage, readyState]);
+  }, [user, sendMessage, readyState]);
 
   return (
     <div className="bg-zinc-100 p-6 gap-6 flex flex-col h-screen">
@@ -80,7 +71,12 @@ export default function Game() {
           <div className="flex gap-6 h-1/4">
             <Dealer cards={table.dealer} />
             <Players players={table.players} />
-            <h2 className="text-3xl font-bold">${money}</h2>
+            <h2 className="text-3xl font-bold">
+              $
+              {table.players.find((p) => {
+                return user?.uid === p.id;
+              })?.money ?? 0}
+            </h2>
           </div>
           <PlayArea sendJson={sendJsonMessage} table={table} />
         </>

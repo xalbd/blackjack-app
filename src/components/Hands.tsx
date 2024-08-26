@@ -22,8 +22,8 @@ export function Hands({
 }) {
   const activeHand = table.activeHand;
   const hands = table.hands;
-  const auth = React.useContext(AuthContext);
-  const playerId = auth?.uid;
+  const { user } = React.useContext(AuthContext);
+  const playerId = user?.uid;
 
   function displayHand(hand: HandType, i: number) {
     // betting phase
