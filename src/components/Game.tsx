@@ -3,12 +3,12 @@ import { tableSchema, TableType } from "@/utils/schema";
 import { z } from "zod";
 import useWebSocket from "react-use-websocket";
 import { Players } from "@/components/Players";
-import { Header } from "@/components/Header";
 import { PlayArea } from "@/components/PlayArea";
 import { Dealer } from "@/components/Dealer";
 import { AuthContext } from "@/components/AuthContext";
+import { Header } from "@/components/Header";
 
-export default function Game() {
+export default function Game({ room }: { room: string }) {
   const queue = React.useRef<TableType[]>([]);
   const waiting = React.useRef(false);
   const [table, setTable] = React.useState<TableType | null>(null);
@@ -37,7 +37,7 @@ export default function Game() {
   }, []);
 
   const { sendMessage, sendJsonMessage, readyState } = useWebSocket(
-    import.meta.env.VITE_BACKEND,
+    `${import.meta.env.VITE_BACKEND_WS}/room/${room}/ws`,
     {
       onMessage: (event) => {
         try {
@@ -62,10 +62,10 @@ export default function Game() {
   }, [user, sendMessage, readyState]);
 
   return (
-    <div className="bg-zinc-100 p-6 gap-6 flex flex-col h-screen">
+    <>
       <Header />
       {!table ? (
-        <div>Loading...</div>
+        <div className="mx-auto">Loading...</div>
       ) : (
         <>
           <div className="flex gap-6 h-1/4">
@@ -81,6 +81,6 @@ export default function Game() {
           <PlayArea sendJson={sendJsonMessage} table={table} />
         </>
       )}
-    </div>
+    </>
   );
 }

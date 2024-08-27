@@ -1,5 +1,5 @@
 import { AuthContext } from "./components/AuthContext";
-import Game from "./components/Game";
+import { Router } from "./components/Router";
 import useFirebase from "./hooks/firebase";
 
 function App() {
@@ -7,7 +7,9 @@ function App() {
 
   return (
     <AuthContext.Provider value={user}>
-      <Game />
+      <div className="bg-zinc-100 p-6 gap-6 flex flex-col h-screen">
+        <Router />
+      </div>
     </AuthContext.Provider>
   );
 }

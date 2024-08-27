@@ -5,7 +5,8 @@
 The following environment variables need to be provided:
 | Name          | Source        |
 | ------------- | ------------- |
-| `VITE_BACKEND`  | Websocket URL of backend server (refer to [xalbd/blackjack-server](https://github.com/xalbd/blackjack-server)) |
+| `VITE_BACKEND`  | URL of backend server for HTTP API requests (refer to [xalbd/blackjack-server](https://github.com/xalbd/blackjack-server)) |
+| `VITE_BACKEND_WS`  | URL of backend server for Websocket connections (refer to [xalbd/blackjack-server](https://github.com/xalbd/blackjack-server)) |
 | `VITE_FIREBASE_API_KEY`  | Firebase Configuration  |
 | `VITE_FIREBASE_AUTH_DOMAIN`  | ^  |
 | `VITE_FIREBASE_PROJECT_ID`  | ^  |
