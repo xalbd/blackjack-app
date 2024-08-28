@@ -8,7 +8,9 @@ export function Router() {
       <Route path="/">
         <RoomList />
       </Route>
-      <Route path="/:room">{(params) => <Game room={params.room} />}</Route>
+      <Route path="/room/:room">
+        {(params) => <Game room={params.room} />}
+      </Route>
     </Switch>
   );
 }
