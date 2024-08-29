@@ -14,6 +14,7 @@ const handSchema = z.object({
 
 const playerSchema = z.object({
   id: z.string(),
+  displayName: z.string(),
   money: z.number(),
 });
 
@@ -29,3 +30,7 @@ export type CardType = z.infer<typeof cardSchema>;
 export type HandType = z.infer<typeof handSchema>;
 export type PlayerType = z.infer<typeof playerSchema>;
 export type TableType = z.infer<typeof tableSchema>;
+
+export function nameOfPlayer(table: TableType, uid: string) {
+  return table.players.find((p) => p.id === uid)?.displayName ?? "Unknown";
+}

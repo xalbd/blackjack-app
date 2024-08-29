@@ -7,10 +7,12 @@ import { CardStack } from "@/components/seats/CardStack";
 
 export function Hand({
   hand,
+  displayName,
   active,
   owned,
 }: {
   hand: HandType;
+  displayName: string;
   active: boolean;
   owned: boolean;
 }) {
@@ -20,7 +22,7 @@ export function Hand({
 
   return (
     <Seat className={`${bg} justify-between`}>
-      <h2 className="text-lg font-bold w-full truncate">{hand.playerId}</h2>
+      <h2 className="text-lg font-bold w-full truncate">{displayName}</h2>
       {hand.cards && <CardStack cards={hand.cards} />}
       <div className="flex flex-col items-center gap-3">
         <span className="text-4xl">${hand.bet}</span>

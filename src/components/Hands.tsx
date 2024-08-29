@@ -1,4 +1,4 @@
-import { HandType, TableType } from "@/utils/schema";
+import { HandType, nameOfPlayer, TableType } from "@/utils/schema";
 import { Hand } from "@/components/seats/Hand";
 import { OtherBettingSeat } from "@/components/seats/OtherBettingSeat";
 import { LockedSeat } from "@/components/seats/LockedSeat";
@@ -26,12 +26,14 @@ export function Hands({
   const playerId = user?.uid;
 
   function displayHand(hand: HandType, i: number) {
+    const displayName = nameOfPlayer(table, hand.playerId);
+
     // betting phase
     if (table.status === 0) {
       if (hand.playerId === "") {
         return <EmptySeat key={i} seat={i} sendJson={sendJson} />;
       } else if (hand.playerId !== playerId && hand.bet === 0) {
-        return <OtherBettingSeat key={i} player={hand.playerId} />;
+        return <OtherBettingSeat key={i} displayName={displayName} />;
       } else if (hand.bet === 0) {
         return (
           <BettingSeat
@@ -47,7 +49,7 @@ export function Hands({
           />
         );
       } else {
-        return <LockedSeat key={i} player={hand.playerId} bet={hand.bet} />;
+        return <LockedSeat key={i} displayName={displayName} bet={hand.bet} />;
       }
     }
     // playing/dealer phase
@@ -59,8 +61,8 @@ export function Hands({
           <JoinedSeat
             key={i}
             seat={i}
-            player={hand.playerId}
-            self={playerId === hand.playerId}
+            displayName={displayName}
+            owned={playerId === hand.playerId}
             sendJson={sendJson}
           />
         );
@@ -69,6 +71,7 @@ export function Hands({
           <Hand
             key={i}
             hand={hand}
+            displayName={displayName}
             active={i === activeHand}
             owned={playerId === hand.playerId}
           />

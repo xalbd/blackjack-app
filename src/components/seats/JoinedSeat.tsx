@@ -5,21 +5,21 @@ import { Seat } from "@/components/seats/Seat";
 
 export function JoinedSeat({
   seat,
-  player,
-  self,
+  displayName,
+  owned,
   sendJson,
 }: {
   seat: number;
-  player: string;
-  self: boolean;
+  displayName: string;
+  owned: boolean;
   sendJson: SendJsonMessage;
 }) {
   return (
     <Seat className="justify-between">
       <p className="w-full break-words overflow-hidden mt-16 text-2xl">
-        {self ? "You" : player}
+        {displayName}
       </p>
-      {self ? (
+      {owned ? (
         <Button
           variant="outline"
           onClick={() => sendJson({ action: "leave", seat })}

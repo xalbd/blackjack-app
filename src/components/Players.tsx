@@ -8,7 +8,7 @@ export function Players({ players }: { players: PlayerType[] }) {
       <ScrollArea className={`rounded-lg flex-1`}>
         {players.map((player) => (
           <div key={player.id} className="flex flex-row justify-between gap-4">
-            <p>{player.id}</p>
+            <p>{player.displayName}</p>
             <p>${player.money}</p>
           </div>
         ))}

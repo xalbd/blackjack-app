@@ -4,8 +4,10 @@ import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import React from "react";
 import { LoginForm } from "./LoginForm";
 import { SignUpForm } from "./SignUpForm";
+import { AuthContext } from "../AuthContext";
 
 export function LoginDialog() {
+  const { user } = React.useContext(AuthContext);
   const [isLogin, setIsLogin] = React.useState(true);
 
   return (
@@ -17,7 +19,7 @@ export function LoginDialog() {
           onClick={() => setIsLogin(true)}
         >
           <LogIn className="mr-2 h-4 w-4" />
-          Login
+          Login {user?.displayName && `(Currently ${user.displayName})`}
         </Button>
       </DialogTrigger>
       <DialogContent

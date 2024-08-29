@@ -31,7 +31,18 @@ export function RoomList() {
       try {
         fetch(`${import.meta.env.VITE_BACKEND}/info`)
           .then((res) => res.json())
-          .then((data) => setRooms(data));
+          .then((data) => {
+            try {
+              const rooms = roomsSchema.parse(data);
+              // just sort the rooms for now alphabetically
+              rooms.rooms.sort();
+              setRooms(rooms);
+            } catch (err) {
+              if (err instanceof z.ZodError) {
+                console.log(err.issues);
+              }
+            }
+          });
       } catch (err) {
         console.log(err);
       }

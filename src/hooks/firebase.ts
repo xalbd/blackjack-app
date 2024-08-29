@@ -1,10 +1,12 @@
 // Import the functions you need from the SDKs you need
+import { generateRandomUsername } from "@/utils/username";
 import { initializeApp } from "firebase/app";
 import {
   Auth,
   getAuth,
   onAuthStateChanged,
   signInAnonymously,
+  updateProfile,
   User,
 } from "firebase/auth";
 import React from "react";
@@ -30,8 +32,13 @@ export default function useFirebase() {
 
     onAuthStateChanged(auth, (u) => {
       if (!u) {
-        signInAnonymously(auth);
+        signInAnonymously(auth).then((u) => {
+          updateProfile(u.user, { displayName: generateRandomUsername() });
+        });
+      } else if (!u.displayName) {
+        updateProfile(u, { displayName: generateRandomUsername() });
       }
+
       setUser(u);
     });
   }, []);

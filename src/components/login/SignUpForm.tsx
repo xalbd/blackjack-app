@@ -14,7 +14,11 @@ import {
 import { Input } from "../ui/input";
 import { AuthContext } from "../AuthContext";
 import React from "react";
-import { EmailAuthProvider, linkWithCredential } from "firebase/auth";
+import {
+  EmailAuthProvider,
+  linkWithCredential,
+  updateProfile,
+} from "firebase/auth";
 
 export function SignUpForm() {
   const { auth, user } = React.useContext(AuthContext);
@@ -51,6 +55,7 @@ export function SignUpForm() {
       values.password
     );
     linkWithCredential(user, credential).then(() => {
+      updateProfile(user, { displayName: values.displayName });
       // forces websocket connection to reestablish (hack to avoid rewrite of auth logic on backend)
       window.location.reload();
     });
