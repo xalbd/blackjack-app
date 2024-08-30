@@ -18,7 +18,7 @@ function generateLocation(i: number) {
 
 export function CardStack({ cards }: { cards: CardType[] }) {
   return (
-    <div className="relative flex-1 aspect-[5/7] max-w-full my-1">
+    <div className="relative flex-1 aspect-[5/7] max-w-full m-1">
       {cards.map((c, i) => (
         <Card
           key={i}

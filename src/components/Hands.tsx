@@ -74,6 +74,7 @@ export function Hands({
             displayName={displayName}
             active={i === activeHand}
             owned={playerId === hand.playerId}
+            received={table.time}
           />
         );
       }

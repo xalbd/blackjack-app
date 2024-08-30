@@ -24,6 +24,7 @@ export const tableSchema = z.object({
   hands: z.array(handSchema),
   dealer: z.nullable(z.array(cardSchema)),
   status: z.number(),
+  time: z.number(),
 });
 
 export type CardType = z.infer<typeof cardSchema>;
