@@ -26,7 +26,7 @@ export function Dealer({
       </div>
       <div className="min-h-0 flex flex-1 justify-center mb-4">
         {cards?.map((c, i) => (
-          <Card rank={c.rank} key={i} className="min-h-0 max-h-full" />
+          <Card card={c} key={i} className="min-h-0 max-h-full" />
         ))}
       </div>
       {bettingTimer && (

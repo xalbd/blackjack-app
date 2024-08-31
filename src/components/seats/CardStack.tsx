@@ -17,7 +17,7 @@ export function CardStack({ cards }: { cards: CardType[] }) {
     const height = bounding.height;
     const aspect = width / height;
 
-    const w_enforce_overlap = 1 / (1 + (cards.length - 1) * 0.3);
+    const w_enforce_overlap = 1 / (1 + (cards.length - 1) * 0.15);
     const w_max = 5 / 7 / aspect;
 
     const w = Math.min(w_enforce_overlap, w_max);
@@ -49,7 +49,7 @@ export function CardStack({ cards }: { cards: CardType[] }) {
               top: `${100 - height - yoffset * i}%`,
               right: `${100 - width - xoffset * i}%`,
             }}
-            rank={c.rank}
+            card={c}
           />
         ))}
       </div>
