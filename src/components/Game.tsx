@@ -69,7 +69,14 @@ export default function Game({ room }: { room: string }) {
       ) : (
         <>
           <div className="flex gap-6 h-1/4">
-            <Dealer cards={table.dealer} />
+            <Dealer
+              bettingTimer={
+                table.status === 0 &&
+                table.hands.some((h) => h.bet !== 0 && h.playerId !== "")
+              }
+              received={table.time}
+              cards={table.dealer}
+            />
             <Players players={table.players} />
             <h2 className="text-3xl font-bold">
               $
