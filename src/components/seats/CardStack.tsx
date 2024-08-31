@@ -17,29 +17,15 @@ export function CardStack({ cards }: { cards: CardType[] }) {
     const height = bounding.height;
     const aspect = width / height;
 
-    // wider than the card, so height is the constraint, i.e. pick width such that height remains okay
-    if (aspect > 5 / 7) {
-      const w_enforce_overlap = 1 / (1 + (cards.length - 1) * 0.2);
-      const w_max = 5 / 7 / aspect;
+    const w_enforce_overlap = 1 / (1 + (cards.length - 1) * 0.3);
+    const w_max = 5 / 7 / aspect;
 
-      const w = Math.min(w_enforce_overlap, w_max);
-      const h = w * (7 / 5) * aspect;
-      setWidth(w);
-      setHeight(h);
-      setXOffset((1 - w) / (cards.length - 1));
-      setYOffset((1 - h) / (cards.length - 1));
-    } // taller than the card, so width is the constraint, i.e. pick height such that width remains okay
-    else {
-      const h_enforce_overlap = 1 / (1 + (cards.length - 1) * 0.2);
-      const h_max = (7 / 5) * aspect;
-
-      const h = Math.min(h_enforce_overlap, h_max);
-      const w = (h * (5 / 7)) / aspect;
-      setWidth(w);
-      setHeight(h);
-      setXOffset((1 - w) / (cards.length - 1));
-      setYOffset((1 - h) / (cards.length - 1));
-    }
+    const w = Math.min(w_enforce_overlap, w_max);
+    const h = w * (7 / 5) * aspect;
+    setWidth(100 * w);
+    setHeight(100 * h);
+    setXOffset((100 * (1 - w)) / (cards.length - 1));
+    setYOffset((100 * (1 - h)) / (cards.length - 1));
   }, [cards.length]);
 
   React.useLayoutEffect(() => {
@@ -59,9 +45,9 @@ export function CardStack({ cards }: { cards: CardType[] }) {
             key={i}
             className={`absolute transition-[top] transition-[right]`}
             style={{
-              width: `${width * 100}%`,
-              top: `${100 - height * 100 - yoffset * 100 * i}%`,
-              right: `${100 - width * 100 - xoffset * 100 * i}%`,
+              width: `${width}%`,
+              top: `${100 - height - yoffset * i}%`,
+              right: `${100 - width - xoffset * i}%`,
             }}
             rank={c.rank}
           />
