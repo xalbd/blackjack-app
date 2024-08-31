@@ -15,9 +15,11 @@ import card13 from "@/assets/cards/K.svg";
 export function Card({
   rank,
   className,
+  style,
 }: {
   rank: number;
   className?: string;
+  style: React.CSSProperties;
 }) {
   const cards = [
     card1,
@@ -35,5 +37,5 @@ export function Card({
     card13,
   ];
 
-  return <img className={className} src={cards[rank - 1]} />;
+  return <img className={className} src={cards[rank - 1]} style={style} />;
 }
