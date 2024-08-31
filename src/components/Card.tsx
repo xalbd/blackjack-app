@@ -50,84 +50,85 @@ import club_J from "@/assets/cards/club_J.svg";
 import club_K from "@/assets/cards/club_K.svg";
 import club_Q from "@/assets/cards/club_Q.svg";
 import club_T from "@/assets/cards/club_T.svg";
+import back from "@/assets/cards/back.svg";
 import { CardType } from "@/utils/schema";
+
+const cards = [
+  [
+    spade_A,
+    spade_2,
+    spade_3,
+    spade_4,
+    spade_5,
+    spade_6,
+    spade_7,
+    spade_8,
+    spade_9,
+    spade_T,
+    spade_J,
+    spade_Q,
+    spade_K,
+  ],
+  [
+    heart_A,
+    heart_2,
+    heart_3,
+    heart_4,
+    heart_5,
+    heart_6,
+    heart_7,
+    heart_8,
+    heart_9,
+    heart_T,
+    heart_J,
+    heart_Q,
+    heart_K,
+  ],
+  [
+    diamond_A,
+    diamond_2,
+    diamond_3,
+    diamond_4,
+    diamond_5,
+    diamond_6,
+    diamond_7,
+    diamond_8,
+    diamond_9,
+    diamond_T,
+    diamond_J,
+    diamond_Q,
+    diamond_K,
+  ],
+  [
+    club_A,
+    club_2,
+    club_3,
+    club_4,
+    club_5,
+    club_6,
+    club_7,
+    club_8,
+    club_9,
+    club_T,
+    club_J,
+    club_Q,
+    club_K,
+  ],
+];
 
 export function Card({
   card,
   className,
   style,
 }: {
-  card: CardType;
+  card?: CardType;
   className?: string;
   style?: React.CSSProperties;
 }) {
-  const cards = [
-    [
-      spade_A,
-      spade_2,
-      spade_3,
-      spade_4,
-      spade_5,
-      spade_6,
-      spade_7,
-      spade_8,
-      spade_9,
-      spade_T,
-      spade_J,
-      spade_Q,
-      spade_K,
-    ],
-    [
-      heart_A,
-      heart_2,
-      heart_3,
-      heart_4,
-      heart_5,
-      heart_6,
-      heart_7,
-      heart_8,
-      heart_9,
-      heart_T,
-      heart_J,
-      heart_Q,
-      heart_K,
-    ],
-    [
-      diamond_A,
-      diamond_2,
-      diamond_3,
-      diamond_4,
-      diamond_5,
-      diamond_6,
-      diamond_7,
-      diamond_8,
-      diamond_9,
-      diamond_T,
-      diamond_J,
-      diamond_Q,
-      diamond_K,
-    ],
-    [
-      club_A,
-      club_2,
-      club_3,
-      club_4,
-      club_5,
-      club_6,
-      club_7,
-      club_8,
-      club_9,
-      club_T,
-      club_J,
-      club_Q,
-      club_K,
-    ],
-  ];
-
   return (
     <img
       className={className}
-      src={cards[card.suit][card.rank - 1]}
+      src={card ? cards[card.suit][card.rank - 1] : back}
       style={style}
     />
   );

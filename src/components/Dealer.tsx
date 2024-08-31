@@ -28,6 +28,7 @@ export function Dealer({
         {cards?.map((c, i) => (
           <Card card={c} key={i} className="min-h-0 max-h-full" />
         ))}
+        {cards?.length === 1 && <Card className="min-h-0 max-h-full" key={1} />}
       </div>
       {bettingTimer && (
         <Progress
