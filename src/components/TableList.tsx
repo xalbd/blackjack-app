@@ -14,8 +14,14 @@ import { Header } from "@/components/Header";
 import { Button } from "./ui/button";
 import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group";
 
+const roomSchema = z.object({
+  code: z.string(),
+  seats: z.number(),
+  takenSeats: z.number(),
+});
+
 const roomsSchema = z.object({
-  rooms: z.array(z.string()),
+  rooms: z.array(roomSchema),
 });
 
 type RoomsType = z.infer<typeof roomsSchema>;
@@ -64,7 +70,7 @@ export function RoomList() {
               <TableRow>
                 <TableHead>Code</TableHead>
                 <TableHead>Host</TableHead>
-                <TableHead>Players</TableHead>
+                <TableHead>Seats Taken</TableHead>
                 <TableHead>Ruleset</TableHead>
               </TableRow>
             </TableHeader>
@@ -72,13 +78,13 @@ export function RoomList() {
               {rooms.rooms.map((room, i) => (
                 <TableRow
                   key={i}
-                  onClick={() => setLocation(`/room/${room}`)}
+                  onClick={() => setLocation(`/room/${room.code}`)}
                   className="hover:cursor-pointer"
                 >
-                  <TableCell>{room}</TableCell>
-                  <TableCell>anon</TableCell>
-                  <TableCell>?</TableCell>
-                  <TableCell>blah</TableCell>
+                  <TableCell>{room.code}</TableCell>
+                  <TableCell>Anonymous</TableCell>
+                  <TableCell>{`${room.takenSeats}/${room.seats}`}</TableCell>
+                  <TableCell>Standard</TableCell>
                 </TableRow>
               ))}
             </TableBody>
